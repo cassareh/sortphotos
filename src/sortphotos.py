@@ -23,10 +23,31 @@ from datetime import datetime, timedelta
 import re
 import locale
 
+# begin @cassareh
+import logging
+import drive_api
+
+FORMAT = '%(asctime)-15s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.INFO)
+logger = logging.getLogger('sortphotos')
+
+drive_service = drive_api.get_service()
+# end @cassareh
+
 # Setting locale to the 'local' value
 locale.setlocale(locale.LC_ALL, '')
 
 exiftool_location = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'Image-ExifTool', 'exiftool')
+
+# begin @cassareh
+def move(src_file, dest_file):
+    #shutil.move(src_file, dest_file)
+    try:
+        drive_api.move(drive_service, os.path.abspath(src_file),
+            os.path.abspath(dest_file))
+    except:
+        logger.exception('Failed to move %s!' % src_file)
+# end @cassareh
 
 
 # -------- convenience methods -------------
@@ -423,7 +444,7 @@ def sortPhotos(src_dir, dest_dir, sort_format, rename_format, recursive=False,
                 if copy_files:
                     shutil.copy2(src_file, dest_file)
                 else:
-                    shutil.move(src_file, dest_file)
+                    move(src_file, dest_file)
 
 
 

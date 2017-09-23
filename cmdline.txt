@@ -1,0 +1,2 @@
+cd "Z:\Assareh\Drive\Google Photos"
+python C:\Users\assareh\code\github\sortphotos\sortphotos\src\sortphotos.py . . --sort %Y/%Y_%m --test

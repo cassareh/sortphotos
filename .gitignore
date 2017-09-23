@@ -37,3 +37,5 @@ nosetests.xml
 .pydevproject
 
 !src/Image-ExifTool/lib
+
+src/client_secret.json
